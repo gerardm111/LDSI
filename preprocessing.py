@@ -56,12 +56,25 @@ def unlabeled_preprocessing(folder):
     print('---All sentences segmented in all files')
     return total_nb, nb_sentence_per_doc
 
-total_nb_sent, dict_nb_sent_per_doc = unlabeled_preprocessing('unlabeled')
 
-print("Total number of sentences in the unlabeled corpus", total_nb_sent)
-list_of_sent_nb = []
-for key in dict_nb_sent_per_doc:
-    list_of_sent_nb.append(dict_nb_sent_per_doc[key])
-plt.hist(list_of_sent_nb)
-plt.title('Frequency histogram of sentence number')
-plt.show()
+def display_histogram(total_nb_sent, dict_nb_sent_per_doc):
+    print("Total number of sentences in the unlabeled corpus", total_nb_sent)
+    list_of_sent_nb = []
+    for key in dict_nb_sent_per_doc:
+        list_of_sent_nb.append(dict_nb_sent_per_doc[key])
+    plt.hist(list_of_sent_nb, bins=100)
+    plt.title('Frequency histogram of sentence number')
+    plt.show()
+
+total_nb_sent, dict_nb_sent_per_doc = unlabeled_preprocessing('unlabeled')
+display_histogram(total_nb_sent, dict_nb_sent_per_doc)
+
+def tokenizer(sentence):
+    """
+    :param sentence: sentence to tokenize
+    :type sentence: str
+
+    :output: list of tokens from the sentence input
+    """
+    list = []
+    return list
