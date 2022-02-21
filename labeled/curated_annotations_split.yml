@@ -1,4 +1,4 @@
-granted test:
+test:
 - 61aea55c97ad59b4cfc41298
 - 61aea55c97ad59b4cfc4128e
 - 61aea55f97ad59b4cfc41320
@@ -6,7 +6,6 @@ granted test:
 - 61aea55f97ad59b4cfc41306
 - 61aea55e97ad59b4cfc412ed
 - 61aea55c97ad59b4cfc412a9
-denied test:
 - 61aea57497ad59b4cfc413db
 - 61aea57497ad59b4cfc413d1
 - 61aea57497ad59b4cfc413ca
@@ -14,7 +13,7 @@ denied test:
 - 61aea57097ad59b4cfc4135e
 - 61aea57497ad59b4cfc413f2
 - 61aea57497ad59b4cfc413dd
-granted dev:
+dev:
 - 61aea55f97ad59b4cfc41332
 - 61aea55d97ad59b4cfc412cc
 - 61aea55d97ad59b4cfc412cf
@@ -22,7 +21,6 @@ granted dev:
 - 61aea55c97ad59b4cfc41297
 - 61aea55e97ad59b4cfc412d6
 - 61aea55e97ad59b4cfc412e2
-denied dev:
 - 61aea57497ad59b4cfc413e3
 - 61aea57497ad59b4cfc413b7
 - 61aea57197ad59b4cfc41379
