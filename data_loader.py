@@ -3,9 +3,17 @@ import yaml
 import json
 
 ## Creating the dataset with training docs only (excluding test and dev sets)
-def train_data_loader(data):
+def train_data_loader(data, path_to_exclude):
+    """
+    :param data: corpus of documents
+    :type data: dictionary
+    :param path_to_exclude: path to the yaml documents containing Ids of files to exclude
+    :type path_to_exclude: str
+
+    :output: dict of training documents (i.e. without test and dev documents)
+    """
     ## creating list of IDs of train and dev sets
-    with open("labeled/curated_annotations_split.yml") as stream:
+    with open(path_to_exclude) as stream:
         data_loaded = yaml.safe_load(stream)
     train_and_dev_doc_ids = []
     for key in data_loaded:

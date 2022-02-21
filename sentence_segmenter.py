@@ -20,7 +20,7 @@ def test1(path):
 
 corpus_fpath = 'labeled/ldsi_w21_curated_annotations_v2.json'
 data = json.load(open(corpus_fpath))
-data_train = train_data_loader(data)
+data_train = train_data_loader(data, "labeled/curated_annotations_split.yml")
 #print(len(data_train['documents']))
 
 @Language.component('spatial_separators')
