@@ -40,8 +40,6 @@ def make_feature_vectors_and_labels(spans):
     print("X and y created")
     return X, y
 
-model = fasttext.load_model("model_fasttext.bin")
-
 corpus_fpath = 'labeled/ldsi_w21_curated_annotations_v2.json'
 data = json.load(open(corpus_fpath))
 print("****TRAIN****")
@@ -57,21 +55,21 @@ spans_add_tokens(dev_spans)
 dev_X, dev_y = make_feature_vectors_and_labels(dev_spans)
 print(f'{dev_X.shape} {dev_y.shape}')
 
+model = fasttext.load_model("model_fasttext_2.bin")
+
 #clf = tree.DecisionTreeClassifier(max_depth=12)
 clf = LogisticRegression()
-#clf = RandomForestClassifier(max_depth=12)
 clf = clf.fit(train_X, train_y)
 clf2 = RandomForestClassifier()
 clf2 = clf2.fit(train_X, train_y)
 print('TRAIN LR:\n'+classification_report(train_spans_labels, clf.predict(train_X)))
 print('DEV TEST LR:\n'+classification_report(dev_spans_labels, clf.predict(dev_X)))
 plot_confusion_matrix(dev_spans_labels, clf.predict(dev_X), classes=list(clf.classes_),
-                      title='Confusion matrix for dev data (Logistic regression)')
+                      title='Confusion matrix for dev data (Logistic Regression)')
 print(clf.get_params())
 print('TRAIN RF:\n'+classification_report(train_spans_labels, clf2.predict(train_X)))
 print('DEV TEST RF:\n'+classification_report(dev_spans_labels, clf2.predict(dev_X)))
 plot_confusion_matrix(dev_spans_labels, clf2.predict(dev_X), classes=list(clf2.classes_),
                       title='Confusion matrix for dev data (Random Forest)')
-forest_trees = [estimator.tree_.max_depth for estimator in clf2.estimators_]
-print(len(forest_trees), forest_trees)
+print(clf2.get_params())
 plt.show()
