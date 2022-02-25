@@ -74,7 +74,7 @@ def make_span_data(data):
     types_by_id = {t['_id']: t for t in data['types']}
     annotations = data['annotations']
     for a in annotations:
-        print("annotation: ", cpt, " /15 349", end="\r")
+        print("annotation: ", cpt, " /14 291", end="\r")
         start = a['start']
         end = a['end']
         document_txt = documents_by_id[a['document']]['plainText']
@@ -89,4 +89,5 @@ def make_span_data(data):
         cpt += 1
     span_labels = [s['type'] for s in span_data]
     span_txt = [s['txt'] for s in span_data]
+    print("---Spanning dataset completed")
     return span_data, span_labels, span_txt

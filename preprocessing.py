@@ -160,17 +160,7 @@ def tokenize_documents(path):
     print("---All documents sentences tokenized! ")
     return nb_tokens_list
 
-def one_sentence_tokenizer(txt):
-    nlp = spacy.load("en_core_web_sm")
-    nlp.tokenizer.add_special_case('Vet. App.', [{ORTH: 'Vet. App.'}])
-    nlp.tokenizer.add_special_case('Veterans Law Judge', [{ORTH: 'Veterans Law Judge'}])
-    nlp.tokenizer.add_special_case('Veterans Affairs', [{ORTH: 'Veterans Affairs'}])
-    nlp.tokenizer.add_special_case("Veterans' Appeals", [{ORTH: "Veterans' Appeals"}])
-    ruler = nlp.get_pipe("attribute_ruler")
-    patterns = [[{"TEXT": "["}], [{"TEXT": "\n"}], [{"TEXT": "'"}], [{"TEXT": "\r"}], [{"TEXT": "\t"}]]
-    attrs = {"POS": "PUNCT"}
-    ruler.add(patterns=patterns, attrs=attrs, index=0)
-    nlp.disable_pipes('parser')
+def one_sentence_tokenizer(txt, nlp):
     doc = nlp(txt)
     tokens = list(doc)
     clean_tokens = []
@@ -188,7 +178,7 @@ def one_sentence_tokenizer(txt):
             par_split = t.lemma_.split('(')
             for elem in par_split:
                 par_removed = par_removed + elem
-            par_split = one_sentence_tokenizer(par_removed)
+            par_split = one_sentence_tokenizer(par_removed, nlp)
             for elem in par_split:
                 clean_tokens.append(elem)
         elif "\n" in t.lemma_:
@@ -196,12 +186,30 @@ def one_sentence_tokenizer(txt):
             for elem in par_split:
                 if elem != ' ' and elem != '':
                     par_removed = par_removed + ' ' + elem
-            par_split = one_sentence_tokenizer(par_removed)
+            par_split = one_sentence_tokenizer(par_removed, nlp)
             for elem in par_split:
                 clean_tokens.append(elem)
         else:
             clean_tokens.append(t.lemma_.lower())
     return clean_tokens
+
+def spans_add_tokens(spans):
+    cpt = 0
+    nlp = spacy.load("en_core_web_sm")
+    nlp.tokenizer.add_special_case('Vet. App.', [{ORTH: 'Vet. App.'}])
+    nlp.tokenizer.add_special_case('Veterans Law Judge', [{ORTH: 'Veterans Law Judge'}])
+    nlp.tokenizer.add_special_case('Veterans Affairs', [{ORTH: 'Veterans Affairs'}])
+    nlp.tokenizer.add_special_case("Veterans' Appeals", [{ORTH: "Veterans' Appeals"}])
+    ruler = nlp.get_pipe("attribute_ruler")
+    patterns = [[{"TEXT": "["}], [{"TEXT": "\n"}], [{"TEXT": "'"}], [{"TEXT": "\r"}], [{"TEXT": "\t"}]]
+    attrs = {"POS": "PUNCT"}
+    ruler.add(patterns=patterns, attrs=attrs, index=0)
+    nlp.disable_pipes('parser')
+    for s in spans:
+        s['tokens_spacy'] = one_sentence_tokenizer(s['txt'], nlp)
+        cpt += 1
+        print("span: ", cpt, " / 14 291", end="\r")
+    print("---Number of tokens key added to spans")
 
 def display_histogram_from_list(list_nb_sent_per_doc):
     plt.hist(list_nb_sent_per_doc, bins=100)
