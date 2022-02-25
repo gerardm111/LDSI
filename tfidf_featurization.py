@@ -65,7 +65,7 @@ def span_top_tfidf(spans_txt, spans_tfidf, features, index):
     print('span text:\n'+spans_txt[index]+'\n')
     print(top_features_in_doc(spans_tfidf, features, index))
 
-## TO DO: find what is spans_txt (train_spans_txt from workshop) & spans (train_spans from workshop)
+"""
 corpus_fpath = 'labeled/ldsi_w21_curated_annotations_v2.json'
 data = json.load(open(corpus_fpath))
 data_train = train_data_loader(data, "labeled/curated_annotations_split.yml")
@@ -85,3 +85,4 @@ span_top_tfidf(train_spans_txt, train_tfidf_skl, train_tfidf_features_skl, rando
 dfs = top_features_by_class(train_tfidf_skl, train_spans_labels, train_tfidf_features_skl)
 #print(dfs.keys())
 #print(dfs['Citation'])
+"""

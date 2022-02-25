@@ -134,6 +134,8 @@ def tokenize_documents(path):
     nb_tokens_list = []
     cpt1 = 0
 
+    # Create our nlp instance
+    ## TO DO: put it in another function
     nlp = spacy.load("en_core_web_sm")
     nlp.tokenizer.add_special_case('Vet. App.', [{ORTH: 'Vet. App.'}])
     nlp.tokenizer.add_special_case('Veterans Law Judge', [{ORTH: 'Veterans Law Judge'}])
@@ -157,6 +159,49 @@ def tokenize_documents(path):
         cpt1 += 1
     print("---All documents sentences tokenized! ")
     return nb_tokens_list
+
+def one_sentence_tokenizer(txt):
+    nlp = spacy.load("en_core_web_sm")
+    nlp.tokenizer.add_special_case('Vet. App.', [{ORTH: 'Vet. App.'}])
+    nlp.tokenizer.add_special_case('Veterans Law Judge', [{ORTH: 'Veterans Law Judge'}])
+    nlp.tokenizer.add_special_case('Veterans Affairs', [{ORTH: 'Veterans Affairs'}])
+    nlp.tokenizer.add_special_case("Veterans' Appeals", [{ORTH: "Veterans' Appeals"}])
+    ruler = nlp.get_pipe("attribute_ruler")
+    patterns = [[{"TEXT": "["}], [{"TEXT": "\n"}], [{"TEXT": "'"}], [{"TEXT": "\r"}], [{"TEXT": "\t"}]]
+    attrs = {"POS": "PUNCT"}
+    ruler.add(patterns=patterns, attrs=attrs, index=0)
+    nlp.disable_pipes('parser')
+    doc = nlp(txt)
+    tokens = list(doc)
+    clean_tokens = []
+    par_removed = ''
+    for t in tokens:
+        if t.pos_ == 'PUNCT':
+            pass
+        elif t.pos_ == 'NUM':
+            clean_tokens.append(f'<NUM{len(t)}>')
+        elif t.lemma_ == "'s":
+            pass
+        elif t.lemma_ == "'" or t.lemma_ == "\n" or t.lemma_ == "\r" or t.lemma_ == "\t":
+            pass
+        elif '(' in t.lemma_:
+            par_split = t.lemma_.split('(')
+            for elem in par_split:
+                par_removed = par_removed + elem
+            par_split = one_sentence_tokenizer(par_removed)
+            for elem in par_split:
+                clean_tokens.append(elem)
+        elif "\n" in t.lemma_:
+            par_split = t.lemma_.split('\n')
+            for elem in par_split:
+                if elem != ' ' and elem != '':
+                    par_removed = par_removed + ' ' + elem
+            par_split = one_sentence_tokenizer(par_removed)
+            for elem in par_split:
+                clean_tokens.append(elem)
+        else:
+            clean_tokens.append(t.lemma_.lower())
+    return clean_tokens
 
 def display_histogram_from_list(list_nb_sent_per_doc):
     plt.hist(list_nb_sent_per_doc, bins=100)
@@ -197,4 +242,4 @@ def write_tokenized_sentences_randomly(path):
     print("---All tokenized sentences written in txt file")
     f.close()
 
-write_tokenized_sentences_randomly('unlabeled/ldsi_unlabeled_annotations_tokens.json')
+#write_tokenized_sentences_randomly('unlabeled/ldsi_unlabeled_annotations_tokens.json')
