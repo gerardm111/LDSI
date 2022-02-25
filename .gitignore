@@ -7,3 +7,6 @@ unlabeled_large.zip
 hist_1.png
 /__pycache__
 LDSI-W2021-Project-Instructions-Feb11.pdf
+model_fasttext.bin
+model_fasttext_2.bin
+model_test.bin
