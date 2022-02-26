@@ -43,6 +43,32 @@ def make_feature_vectors_and_labels(spans):
     print("X and y created")
     return X, y
 
+def make_feature_vectors(spans, model):
+    # function takes long to execute
+    # note: we un-sparse the matrix here to be able to manipulate it
+    list_nb_of_tokens = []
+    fasttext_vectorizer = []
+    for sent in spans:
+        temp_feature = []
+        list_nb_of_tokens.append(len(sent['tokens_spacy']))
+        for token in sent['tokens_spacy']:
+            temp_feature.append(model.get_word_vector(token))
+        np.array(temp_feature)
+        fasttext_vectorizer.append(np.average(temp_feature, axis=0)) #possible to weight it with tfidf
+    mean_nb_tokens = mean(list_nb_of_tokens)
+    std_nb_tokens = np.std(np.array(list_nb_of_tokens))
+    fasttext_vectorizer  =np.array(fasttext_vectorizer)
+
+    print("fasttext vect: ", fasttext_vectorizer.shape)
+    starts_normalized = np.array([s['start_normalized'] for s in spans])
+    nb_tokens_normalized = np.array([(len(s['tokens_spacy'])-mean_nb_tokens)/std_nb_tokens for s in spans])
+    temp = np.concatenate((fasttext_vectorizer, np.expand_dims(starts_normalized, axis=1)), axis=1)
+    X = np.concatenate((temp, np.expand_dims(nb_tokens_normalized, axis=1)), axis=1)
+    print("X created")
+    return X
+
+
+"""
 model = fasttext.load_model("model_fasttext.bin")
 
 corpus_fpath = 'labeled/ldsi_w21_curated_annotations_v2.json'
@@ -72,12 +98,13 @@ print('DEV TEST LR:\n'+classification_report(dev_spans_labels, clf.predict(dev_X
 plot_confusion_matrix(dev_spans_labels, clf.predict(dev_X), classes=list(clf.classes_),
                       title='Confusion matrix for dev data (Logistic regression)')
 print(clf.get_params())
-"""
+
 print('TRAIN RF:\n'+classification_report(train_spans_labels, clf2.predict(train_X)))
 print('DEV TEST RF:\n'+classification_report(dev_spans_labels, clf2.predict(dev_X)))
 plot_confusion_matrix(dev_spans_labels, clf2.predict(dev_X), classes=list(clf2.classes_),
                       title='Confusion matrix for dev data (Random Forest)')
 forest_trees = [estimator.tree_.max_depth for estimator in clf2.estimators_]
 print(len(forest_trees), forest_trees)
-"""
+
 plt.show()
+"""

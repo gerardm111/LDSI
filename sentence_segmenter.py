@@ -41,7 +41,7 @@ def set_custom_Sentence_end_points_footnote(doc):
             doc[token.i+1].is_sent_start = False
     return doc
 
-def sentence_segment_starting_ind(data, type_of_segmenter):
+def sentence_segment_starting_ind(data, type_of_segmenter="luima"):
     """
     :param data: dict corresponding to the document corpus
     :type data: dictionary
