@@ -263,6 +263,48 @@ EvidenceBasedOrIntermediateFinding       0.38      0.57      0.46        28
                          macro avg       0.76      0.73      0.72       448
                       weighted avg       0.81      0.79      0.75       448                
                       
+******************************SVM poly
+TRAIN LR:
+                                    precision    recall  f1-score   support
 
+                        CaseFooter       0.99      0.99      0.99       131
+                        CaseHeader       0.99      0.97      0.98       133
+                         CaseIssue       0.99      0.89      0.94       133
+                          Citation       1.00      0.95      0.97      2260
+                   ConclusionOfLaw       0.91      0.70      0.79       319
+                          Evidence       0.66      0.98      0.79      4347
+EvidenceBasedOrIntermediateFinding       0.66      0.44      0.53      1373
+            EvidenceBasedReasoning       0.72      0.06      0.12       943
+                            Header       0.99      0.99      0.99      1385
+                         LegalRule       0.84      0.79      0.81      1807
+              LegislationAndPolicy       0.90      0.06      0.11       160
+              PolicyBasedReasoning       1.00      0.04      0.07        27
+                         Procedure       0.97      0.76      0.85      1271
+                RemandInstructions       0.00      0.00      0.00         3
+
+                          accuracy                           0.80     14292
+                         macro avg       0.83      0.61      0.64     14292
+                      weighted avg       0.82      0.80      0.77     14292
+                      
+DEV TEST LR:
+                                    precision    recall  f1-score   support
+
+                        CaseFooter       1.00      1.00      1.00         4
+                        CaseHeader       1.00      1.00      1.00         4
+                         CaseIssue       1.00      0.75      0.86         4
+                          Citation       1.00      0.93      0.96        73
+                   ConclusionOfLaw       0.83      0.62      0.71         8
+                          Evidence       0.58      0.98      0.73       141
+EvidenceBasedOrIntermediateFinding       0.60      0.43      0.50        28
+            EvidenceBasedReasoning       0.00      0.00      0.00        60
+                            Header       0.98      1.00      0.99        41
+                         LegalRule       0.87      0.73      0.80        45
+              LegislationAndPolicy       0.00      0.00      0.00         6
+              PolicyBasedReasoning       0.00      0.00      0.00         1
+                         Procedure       0.96      0.70      0.81        33
+
+                          accuracy                           0.74       448
+                         macro avg       0.68      0.63      0.64       448
+                      weighted avg       0.67      0.74      0.69    448                      
 
 

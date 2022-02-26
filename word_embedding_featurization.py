@@ -9,6 +9,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn import tree
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
 import fasttext
 from sklearn.metrics import classification_report
 import matplotlib.pyplot as plt
@@ -58,20 +61,23 @@ dev_X, dev_y = make_feature_vectors_and_labels(dev_spans)
 print(f'{dev_X.shape} {dev_y.shape}')
 
 #clf = tree.DecisionTreeClassifier(max_depth=12)
-clf = LogisticRegression()
+#clf = LogisticRegression()
 #clf = RandomForestClassifier(max_depth=12)
+clf = make_pipeline(StandardScaler(), SVC(kernel='poly', gamma='auto'))
 clf = clf.fit(train_X, train_y)
-clf2 = RandomForestClassifier()
-clf2 = clf2.fit(train_X, train_y)
+#clf2 = RandomForestClassifier()
+#clf2 = clf2.fit(train_X, train_y)
 print('TRAIN LR:\n'+classification_report(train_spans_labels, clf.predict(train_X)))
 print('DEV TEST LR:\n'+classification_report(dev_spans_labels, clf.predict(dev_X)))
 plot_confusion_matrix(dev_spans_labels, clf.predict(dev_X), classes=list(clf.classes_),
                       title='Confusion matrix for dev data (Logistic regression)')
 print(clf.get_params())
+"""
 print('TRAIN RF:\n'+classification_report(train_spans_labels, clf2.predict(train_X)))
 print('DEV TEST RF:\n'+classification_report(dev_spans_labels, clf2.predict(dev_X)))
 plot_confusion_matrix(dev_spans_labels, clf2.predict(dev_X), classes=list(clf2.classes_),
                       title='Confusion matrix for dev data (Random Forest)')
 forest_trees = [estimator.tree_.max_depth for estimator in clf2.estimators_]
 print(len(forest_trees), forest_trees)
+"""
 plt.show()
