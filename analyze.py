@@ -2,8 +2,8 @@ import sys, argparse
 from joblib import load
 import fasttext
 import luima_sbd.sbd_utils as luima
-from preprocessing import one_sentence_tokenizer
-from word_embedding_featurization import make_feature_vectors
+from utils.preprocessing import one_sentence_tokenizer
+from utils.word_embedding_featurization import make_feature_vectors
 import spacy
 from spacy.attrs import ORTH
 import pandas as pd
@@ -44,7 +44,7 @@ for i in range(len(list_sentences)):
     document_list_of_dict.append(sentence_dict)
 
 # word embeddings
-fasttext_model = fasttext.load_model("model_fasttext.bin")
+fasttext_model = fasttext.load_model("./models/model_fasttext.bin")
 test_X = make_feature_vectors(document_list_of_dict, fasttext_model)
 print("shape of X: ", f'{test_X.shape}')
 

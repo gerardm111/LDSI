@@ -4,7 +4,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import json
 import random
 
-from data_loader import train_data_loader, make_span_data
+from utils.data_loader import train_data_loader, make_span_data
 
 def featurize(spans_txt):
     # spans_txt = list of sentences

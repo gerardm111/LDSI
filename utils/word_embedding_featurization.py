@@ -1,6 +1,6 @@
-from preprocessing import spans_add_tokens
-from data_loader import train_data_loader, make_span_data
-from classification_metrics import plot_confusion_matrix
+from utils.preprocessing import spans_add_tokens
+from utils.data_loader import train_data_loader, make_span_data
+from utils.classification_metrics import plot_confusion_matrix
 
 import json
 import numpy as np
@@ -16,7 +16,7 @@ import fasttext
 from sklearn.metrics import classification_report
 import matplotlib.pyplot as plt
 
-def make_feature_vectors_and_labels(spans):
+def make_feature_vectors_and_labels(spans, model):
     # function takes long to execute
     # note: we un-sparse the matrix here to be able to manipulate it
     list_nb_of_tokens = []
@@ -77,13 +77,13 @@ print("****TRAIN****")
 data_train = train_data_loader(data, "labeled/curated_annotations_split.yml")
 train_spans, train_spans_labels, train_spans_txt = make_span_data(data_train)
 spans_add_tokens(train_spans)
-train_X, train_y = make_feature_vectors_and_labels(train_spans)
+train_X, train_y = make_feature_vectors_and_labels(train_spans, model)
 print(f'{train_X.shape} {train_y.shape}')
 print("****DEV****")
 data_dev = train_data_loader(data, "labeled/curated_annotations_split.yml", set_of_data="dev")
 dev_spans, dev_spans_labels, dev_spans_txt = make_span_data(data_dev)
 spans_add_tokens(dev_spans)
-dev_X, dev_y = make_feature_vectors_and_labels(dev_spans)
+dev_X, dev_y = make_feature_vectors_and_labels(dev_spans, model)
 print(f'{dev_X.shape} {dev_y.shape}')
 
 #clf = tree.DecisionTreeClassifier(max_depth=12)

@@ -40,6 +40,7 @@ Flask==2.0.3
 future==0.18.2
 git-filter-repo==2.34.0
 httplib2==0.14.0
+huggingface-hub==0.4.0
 idna==2.8
 image-similarity-measures==0.3.5
 imageio==2.15.0
@@ -131,9 +132,11 @@ pyzmq==22.3.0
 qtconsole==5.2.2
 QtPy==2.0.1
 rasterio==1.2.10
+regex==2022.1.18
 reportlab==3.5.34
 requests==2.22.0
 requests-unixsocket==0.2.0
+sacremoses==0.0.47
 scikit-image==0.19.1
 scikit-learn==1.0.2
 scipy==1.8.0
@@ -158,10 +161,15 @@ testpath==0.5.0
 thinc==8.0.13
 threadpoolctl==3.1.0
 tifffile==2022.2.9
+tokenizers==0.11.5
 tomli==2.0.1
+torch==1.10.2+cpu
+torchaudio==0.10.2+cpu
+torchvision==0.11.3+cpu
 tornado==6.1
 tqdm==4.62.3
 traitlets==5.1.1
+transformers==4.16.2
 typer==0.4.0
 typing-extensions==4.1.1
 ubuntu-advantage-tools==27.4

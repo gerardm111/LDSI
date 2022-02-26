@@ -11,7 +11,7 @@ kinds of sentence annotations/markup for BVA decisions can be automated, what le
 be drawn regarding the difficulty of classifying certain types, and what challenges are there for
 generally handling BVA decision texts in NLP pipelines.
 
-### How to test model
+### How to test the model?
 You can test the model with a txt file. To do so you must write in the command line:
 ```
 python analyze.py <path.txt>
@@ -26,3 +26,4 @@ The output has on each line a sentence and its predicted type.
 
 ### References
 - [1](Savelka, Jaromir, Vern R. Walker, Matthias Grabmair and Kevin D. Ashley. "Sentence Boundary Detection in Adjudicatory Decisions in the United States." TAL 58.2 (2017))[https://github.com/jsavelka/luima_sbd]
+- [2] (P. Bojanowski*, E. Grave*, A. Joulin, T. Mikolov. "Enriching Word Vectors with Subword Information" TACL 5 (2017))[https://github.com/facebookresearch/fastText]
