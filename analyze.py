@@ -11,7 +11,8 @@ import pandas as pd
 #path_txt_file = sys.argv[1]
 parser=argparse.ArgumentParser()
 parser.add_argument('path', metavar='N', type=str, nargs='+', help='The path to the BVA decision to test')
-parser.add_argument('--write_to_csv', default=False, type=bool, help='If True write the output in a csv file insted of writting it in the terminal')
+parser.add_argument('-csv','--write_to_csv', default=False, type=bool, help='Where you want to have the output. If True the output is saved in a csv file instead of writting it in the terminal')
+parser.add_argument('-m', '--model', default='LR', type=str, help="The model you want to use for prediction. Either 'LR' for Logistic Regression (default) or 'RF' for Random Forest")
 args=parser.parse_args()
 path_txt_file = args.path[0]
 
@@ -49,7 +50,12 @@ test_X = make_feature_vectors(document_list_of_dict, fasttext_model)
 print("shape of X: ", f'{test_X.shape}')
 
 # prediction
-classification_model = load('./models/logistic_regression_model.joblib')
+if args.model == 'RF':
+    classification_model = load('./models/random_forest_best.joblib')
+    print('---Random Forest Classifier used')
+else:
+    classification_model = load('./models/logistic_regression_best.joblib')
+    print('---Logistic Regression Classifier used')
 prediction_list = classification_model.predict(test_X)
 
 # print predicted class

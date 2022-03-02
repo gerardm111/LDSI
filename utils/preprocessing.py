@@ -1,6 +1,8 @@
 import json
 from random import sample, choice
 import os
+import sys
+sys.path.append('/home/mahaut/LDSI/luima_sbd')
 import luima_sbd.sbd_utils as luima
 import matplotlib.pyplot as plt
 import spacy

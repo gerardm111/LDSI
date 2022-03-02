@@ -1,6 +1,6 @@
-from preprocessing import spans_add_tokens
-from data_loader import train_data_loader, make_span_data
-from classification_metrics import plot_confusion_matrix
+from utils.preprocessing import spans_add_tokens
+from utils.data_loader import train_data_loader, make_span_data
+from utils.classification_metrics import plot_confusion_matrix
 
 import json
 import numpy as np
@@ -24,7 +24,7 @@ def make_feature_vectors_and_labels(spans):
         for token in sent['tokens_spacy']:
             temp_feature.append(model.get_word_vector(token))
         np.array(temp_feature)
-        fasttext_vectorizer.append(np.average(temp_feature, axis=0)) #possible to weight it with tfidf
+        fasttext_vectorizer.append(np.average(temp_feature, axis=0))
     mean_nb_tokens = mean(list_nb_of_tokens)
     std_nb_tokens = np.std(np.array(list_nb_of_tokens))
     fasttext_vectorizer  =np.array(fasttext_vectorizer)

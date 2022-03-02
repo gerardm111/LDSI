@@ -14,13 +14,13 @@ generally handling BVA decision texts in NLP pipelines.
 ### How to test the model?
 You can test the model with a txt file. To do so you must write in the command line:
 ```
-python analyze.py <path.txt>
+python analyze.py <path/file.txt>
 ```
 There is also an optional boolean argument "write_to_csv": when False the output is printed in the terminal, 
-when True the output is writen in a csv file ('output_predicited_type.csv' in folder 'outputs') but no more in the terminal. Its default value is False.
+when True the output is written in a csv file ('output_predicited_type.csv' in folder 'outputs') but no more in the terminal. Its default value is False.
 To use this argument, you must write in the command line:
 ```
-python analyze.py <path.txt> --write_to_csv=True
+python analyze.py <path/file.txt> --write_to_csv=True
 ```
 The output has on each line a sentence and its predicted type.
 

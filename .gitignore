@@ -8,3 +8,5 @@ LDSI-W2021-Project-Instructions-Feb11.pdf
 models/model_fasttext.bin
 models/model_fasttext_2.bin
 models/model_test.bin
+models/model_fasttext_3.bin
+utils/__pycache__
