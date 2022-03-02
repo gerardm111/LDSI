@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
@@ -8,6 +9,8 @@ import random
 from sklearn.naive_bayes import GaussianNB
 import matplotlib.pyplot as plt
 from sklearn.tree import DecisionTreeClassifier
+from joblib import dump
+import pickle
 
 from data_loader import train_data_loader, make_span_data
 from classification_metrics import plot_confusion_matrix
@@ -17,6 +20,7 @@ def featurize(spans_txt):
     # spans = dict with for each sentence: document, type, start, end
     vectorizer = TfidfVectorizer(min_df=5)
     vectorizer = vectorizer.fit(train_spans_txt)
+    #pickle.dump(vectorizer, open('tfidf_vectorizer2.pickle', "wb"))
     tfidf_features_skl = vectorizer.get_feature_names()
     tfidf_skl = vectorizer.transform(spans_txt).toarray()
     return tfidf_features_skl, tfidf_skl
@@ -76,26 +80,29 @@ corpus_fpath = 'labeled/ldsi_w21_curated_annotations_v2.json'
 data = json.load(open(corpus_fpath))
 data_train = train_data_loader(data, "labeled/curated_annotations_split.yml")
 data_dev = train_data_loader(data, "labeled/curated_annotations_split.yml", set_of_data="dev")
-#data_test = train_data_loader(data, "labeled/curated_annotations_split.yml", set_of_data="test")
+data_test = train_data_loader(data, "labeled/curated_annotations_split.yml", set_of_data="test")
 
 train_spans, train_spans_labels, train_spans_txt = make_span_data(data_train)
 dev_spans, dev_spans_labels, dev_spans_txt = make_span_data(data_dev)
-#test_spans, test_spans_labels, test_spans_txt = make_span_data(data_test)
+test_spans, test_spans_labels, test_spans_txt = make_span_data(data_test)
 
 train_tfidf_features_skl, train_tfidf_skl = featurize(train_spans_txt)
 dev_tfidf_features_skl, dev_tfidf_skl = featurize(dev_spans_txt)
-#test_tfidf_features_skl, test_tfidf_skl = featurize(test_spans_txt)
+test_tfidf_features_skl, test_tfidf_skl = featurize(test_spans_txt)
+
 print(train_tfidf_skl.shape, dev_tfidf_skl.shape)
 #print(train_tfidf_skl.shape)
 span_top_tfidf(train_spans_txt, train_tfidf_skl, train_tfidf_features_skl, random.randint(0, len(train_spans)))
-dfs = top_features_by_class(train_tfidf_skl, train_spans_labels, train_tfidf_features_skl)
+#dfs = top_features_by_class(train_tfidf_skl, train_spans_labels, train_tfidf_features_skl)
 #print(dfs.keys())
 #print(dfs['Citation'])
 clf_skl = LogisticRegression()
+#clf_skl = RandomForestClassifier(n_estimators=40, criterion='entropy', max_depth=30)
 clf_skl = clf_skl.fit(train_tfidf_skl, train_spans_labels)
-print('TRAIN:\n'+classification_report(train_spans_labels, clf_skl.predict(train_tfidf_skl)))
-print('DEV:\n'+classification_report(dev_spans_labels, clf_skl.predict(dev_tfidf_skl)))
-#print('TEST:\n'+classification_report(test_spans_labels, clf_skl.predict(test_tfidf_skl)))
-plot_confusion_matrix(dev_spans_labels, clf_skl.predict(dev_tfidf_skl), classes=list(clf_skl.classes_),
-                      title='Confusion matrix for dev data (LR & TF-IDF)')
-plt.show()
+#dump(clf_skl, 'logistic_regression_tfidf_best2.joblib')
+#print('TRAIN:\n'+classification_report(train_spans_labels, clf_skl.predict(train_tfidf_skl)))
+#print('DEV:\n'+classification_report(dev_spans_labels, clf_skl.predict(dev_tfidf_skl)))
+print('TEST:\n'+classification_report(test_spans_labels, clf_skl.predict(test_tfidf_skl)))
+#plot_confusion_matrix(dev_spans_labels, clf_skl.predict(dev_tfidf_skl), classes=list(clf_skl.classes_),
+                      #title='Confusion matrix for dev data (RF & TF-IDF)')
+#plt.show()

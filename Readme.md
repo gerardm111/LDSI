@@ -16,10 +16,10 @@ You can test the model with a txt file. To do so you must write in the command l
 ```
 python analyze.py <path/file.txt>
 ```
-There is also 2 optional arguments:
+There are also 2 optional arguments:
 - "write_to_csv" (-csv): boolean: when False the output is printed in the terminal, 
 when True the output is written in a csv file ('output_predicited_type.csv' in folder 'outputs') but no more in the terminal. Its default value is False.
-- "model" (-m): string: The model you want to use for prediction. Either 'LR' for Logistic Regression (default) or 'RF' for Random Forest.
+- "model" (-m): string: The model you want to use for prediction. Either 'LR&TFIDF' for Logistic Regression with TF-IDF embeddings (default) or or 'LR' for Logistic Regression with Fasttext embeddings or 'RF' for Random Forest with Fasttext embeddings.
 To use these optional arguments, you must write in the command line, for example:
 ```
 python analyze.py <path/file.txt> -csv True -m 'LR'

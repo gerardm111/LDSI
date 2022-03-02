@@ -67,9 +67,9 @@ def make_feature_vectors(spans, model):
     print("X created")
     return X
 
-
 """
-model = fasttext.load_model("model_fasttext.bin")
+
+model = fasttext.load_model("models/model_fasttext.bin")
 
 corpus_fpath = 'labeled/ldsi_w21_curated_annotations_v2.json'
 data = json.load(open(corpus_fpath))
@@ -85,19 +85,26 @@ dev_spans, dev_spans_labels, dev_spans_txt = make_span_data(data_dev)
 spans_add_tokens(dev_spans)
 dev_X, dev_y = make_feature_vectors_and_labels(dev_spans, model)
 print(f'{dev_X.shape} {dev_y.shape}')
+print("****TEST****")
+data_test = train_data_loader(data, "labeled/curated_annotations_split.yml", set_of_data="test")
+test_spans, test_spans_labels, test_spans_txt = make_span_data(data_test)
+spans_add_tokens(test_spans)
+test_X, test_y = make_feature_vectors_and_labels(test_spans, model)
+print(f'{test_X.shape} {test_y.shape}')
 
 #clf = tree.DecisionTreeClassifier(max_depth=12)
-#clf = LogisticRegression()
-#clf = RandomForestClassifier(max_depth=12)
-clf = make_pipeline(StandardScaler(), SVC(kernel='poly', gamma='auto'))
+clf = LogisticRegression()
+#clf = RandomForestClassifier(n_estimators=40, criterion='entropy', max_depth=30)
+#clf = make_pipeline(StandardScaler(), SVC(kernel='poly', gamma='auto'))
 clf = clf.fit(train_X, train_y)
 #clf2 = RandomForestClassifier()
 #clf2 = clf2.fit(train_X, train_y)
-print('TRAIN LR:\n'+classification_report(train_spans_labels, clf.predict(train_X)))
-print('DEV TEST LR:\n'+classification_report(dev_spans_labels, clf.predict(dev_X)))
+#print('TRAIN:\n'+classification_report(train_spans_labels, clf.predict(train_X)))
+#print('DEV TEST:\n'+classification_report(dev_spans_labels, clf.predict(dev_X)))
+print('TEST:\n'+classification_report(test_spans_labels, clf.predict(test_X)))
 plot_confusion_matrix(dev_spans_labels, clf.predict(dev_X), classes=list(clf.classes_),
-                      title='Confusion matrix for dev data (Logistic regression)')
-print(clf.get_params())
+                      title='Confusion matrix for dev data (RF best param & FT)')
+#print(clf.get_params())
 
 print('TRAIN RF:\n'+classification_report(train_spans_labels, clf2.predict(train_X)))
 print('DEV TEST RF:\n'+classification_report(dev_spans_labels, clf2.predict(dev_X)))

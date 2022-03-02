@@ -1,0 +1,67 @@
+*******************************LR & TFIDF
+TEST:
+                                    precision    recall  f1-score   support
+
+                        CaseFooter       1.00      1.00      1.00         5
+                        CaseHeader       1.00      0.83      0.91         6
+                         CaseIssue       0.83      1.00      0.91         5
+                          Citation       0.92      0.96      0.94        97
+                   ConclusionOfLaw       0.82      0.90      0.86        10
+                          Evidence       0.69      0.90      0.78       153
+EvidenceBasedOrIntermediateFinding       0.71      0.57      0.63        72
+            EvidenceBasedReasoning       0.47      0.17      0.25        48
+                            Header       0.94      0.92      0.93        53
+                         LegalRule       0.82      0.89      0.85        90
+              LegislationAndPolicy       0.00      0.00      0.00         9
+              PolicyBasedReasoning       0.00      0.00      0.00         1
+                         Procedure       0.80      0.73      0.77        60
+
+                          accuracy                           0.78       609
+                         macro avg       0.69      0.68      0.68       609
+                      weighted avg       0.76      0.78      0.76       609
+                      
+************************************ RF & Fasttext
+TEST:
+                                    precision    recall  f1-score   support
+
+                        CaseFooter       1.00      1.00      1.00         5
+                        CaseHeader       1.00      0.83      0.91         6
+                         CaseIssue       1.00      1.00      1.00         5
+                          Citation       0.94      0.99      0.96        97
+                   ConclusionOfLaw       0.67      0.80      0.73        10
+                          Evidence       0.65      0.90      0.75       153
+EvidenceBasedOrIntermediateFinding       0.59      0.38      0.46        72
+            EvidenceBasedReasoning       0.58      0.15      0.23        48
+                            Header       0.96      0.96      0.96        53
+                         LegalRule       0.80      0.82      0.81        90
+              LegislationAndPolicy       0.17      0.11      0.13         9
+              PolicyBasedReasoning       0.00      0.00      0.00         1
+                         Procedure       0.79      0.77      0.78        60
+
+                          accuracy                           0.76       609
+                         macro avg       0.70      0.67      0.67       609
+                      weighted avg       0.75      0.76      0.74       609
+
+************************** LR & Fasttext
+TEST:
+                                    precision    recall  f1-score   support
+
+                        CaseFooter       1.00      1.00      1.00         5
+                        CaseHeader       1.00      0.83      0.91         6
+                         CaseIssue       1.00      1.00      1.00         5
+                          Citation       0.92      0.97      0.94        97
+                   ConclusionOfLaw       0.67      1.00      0.80        10
+                          Evidence       0.71      0.87      0.78       153
+EvidenceBasedOrIntermediateFinding       0.57      0.43      0.49        72
+            EvidenceBasedReasoning       0.28      0.10      0.15        48
+                            Header       0.93      0.96      0.94        53
+                         LegalRule       0.80      0.89      0.84        90
+              LegislationAndPolicy       0.00      0.00      0.00         9
+              PolicyBasedReasoning       0.00      0.00      0.00         1
+                         Procedure       0.77      0.80      0.79        60
+
+                          accuracy                           0.77       609
+                         macro avg       0.67      0.68      0.67       609
+                      weighted avg       0.73      0.77      0.74       609
+                      
+                      

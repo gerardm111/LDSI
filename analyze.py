@@ -7,12 +7,13 @@ from utils.word_embedding_featurization import make_feature_vectors
 import spacy
 from spacy.attrs import ORTH
 import pandas as pd
+import pickle
 
 #path_txt_file = sys.argv[1]
 parser=argparse.ArgumentParser()
 parser.add_argument('path', metavar='N', type=str, nargs='+', help='The path to the BVA decision to test')
 parser.add_argument('-csv','--write_to_csv', default=False, type=bool, help='Where you want to have the output. If True the output is saved in a csv file instead of writting it in the terminal')
-parser.add_argument('-m', '--model', default='LR', type=str, help="The model you want to use for prediction. Either 'LR' for Logistic Regression (default) or 'RF' for Random Forest")
+parser.add_argument('-m', '--model', default='LR&TFIDF', type=str, help="The model you want to use for prediction. Either 'LR&TFIDF' for Logistic Regression with TF-IDF embeddings (default) or or 'LR' for Logistic Regression with Fasttext embeddings or 'RF' for Random Forest with Fasttext embeddings")
 args=parser.parse_args()
 path_txt_file = args.path[0]
 
@@ -45,17 +46,26 @@ for i in range(len(list_sentences)):
     document_list_of_dict.append(sentence_dict)
 
 # word embeddings
-fasttext_model = fasttext.load_model("./models/model_fasttext.bin")
-test_X = make_feature_vectors(document_list_of_dict, fasttext_model)
-print("shape of X: ", f'{test_X.shape}')
+if args.model == 'LR' or args.model == 'RF':
+    fasttext_model = fasttext.load_model("./models/model_fasttext.bin")
+    test_X = make_feature_vectors(document_list_of_dict, fasttext_model)
+    print("shape of X: ", f'{test_X.shape}')
+    print("--Fasttext embeddings used")
+else:
+    tfidf_vectorizer = pickle.load(open('models/tfidf_vectorizer.pickle', 'rb'))
+    test_X = tfidf_vectorizer.transform(list_sentences).toarray()
+    print("--TFIDF embeddings used")
 
 # prediction
 if args.model == 'RF':
     classification_model = load('./models/random_forest_best.joblib')
     print('---Random Forest Classifier used')
-else:
+elif args.model == 'LR':
     classification_model = load('./models/logistic_regression_best.joblib')
-    print('---Logistic Regression Classifier used')
+    print('---Logistic Regression Classifier with Fasttext embeddings used')
+else:
+    classification_model = load('./models/logistic_regression_tfidf_best.joblib')
+    print('---Logistic Regression Classifier with TF-IDF embeddings used')
 prediction_list = classification_model.predict(test_X)
 
 # print predicted class
