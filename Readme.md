@@ -27,6 +27,6 @@ python analyze.py <path/file.txt> -csv True -m 'LR'
 The output has on each line a sentence and its predicted type.
 
 ### References
-- [1](Savelka, Jaromir, Vern R. Walker, Matthias Grabmair and Kevin D. Ashley. "Sentence Boundary Detection in Adjudicatory Decisions in the United States." TAL 58.2 (2017))[https://github.com/jsavelka/luima_sbd]
-- [2] (P. Bojanowski*, E. Grave*, A. Joulin, T. Mikolov. "Enriching Word Vectors with Subword Information" TACL 5 (2017))[https://github.com/facebookresearch/fastText]
-- Thanks to the (TUM Legal Tech Group)[https://www.in.tum.de/legaltech/home] for the workshop
+- [1](https://github.com/jsavelka/luima_sbd) (Savelka, Jaromir, Vern R. Walker, Matthias Grabmair and Kevin D. Ashley. "Sentence Boundary Detection in Adjudicatory Decisions in the United States." TAL 58.2 (2017))
+- [2](https://github.com/facebookresearch/fastText) (P. Bojanowski*, E. Grave*, A. Joulin, T. Mikolov. "Enriching Word Vectors with Subword Information" TACL 5 (2017))
+- Thanks to the [TUM Legal Tech Group](https://www.in.tum.de/legaltech/home) for the workshop
